@@ -4,12 +4,13 @@ const Note = (props) => {
   const createOn = new Date().toLocaleDateString();
   return (
     <div className="noteComponent">
-      <h3>Note {props.number}</h3>
-      <p>{props.Notebody}</p>
+      <h3>Note {props.title}</h3>
+      <p>{props.content}</p>
       <div className="bottom-row">
         <p className="date">{createOn}</p>
-        <button><img src="src/assets/delete.png"></img></button>
-        
+        <button>
+          <img src="src/assets/delete.png"></img>
+        </button>
       </div>
     </div>
   );

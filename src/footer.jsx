@@ -6,6 +6,7 @@ const Footer = () => {
   return (
     <footer>
       <div>Copyright © {currentYear}</div>
+      <dev></dev>
     </footer>
   );
 };
