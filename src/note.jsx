@@ -5,7 +5,7 @@ const Note = (props) => {
   return (
     <div className="noteComponent">
       <h3>Note {props.title}</h3>
-      <p>{props.content}</p>
+      <p className="note-content">{props.content}</p>
       <div className="bottom-row">
         <p className="date">{createOn}</p>
         <button>
