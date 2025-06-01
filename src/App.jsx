@@ -1,7 +1,6 @@
 import Header from "./header.jsx";
 import Note from "./note.jsx";
 import Footer from "./footer.jsx";
-
 import "./App.css";
 import { useState } from "react";
 import Addnote from "./addnote.jsx";

@@ -18,7 +18,13 @@ const Addnote = ({ isOpen, onClose, onAddNote }) => {
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <h2>Add a new note</h2>
+        <div className="top-layer">
+          <h2>Add a new note</h2>
+          <button className="close-button" onClick={onClose}>
+            <img src="src/assets/close.png"></img>
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="note-title">Title</label>
@@ -42,9 +48,10 @@ const Addnote = ({ isOpen, onClose, onAddNote }) => {
               required
             ></textarea>
           </div>
-          <button type="submit" className="submit-button">Add Note</button>
+          <button type="submit" className="submit-button">
+            Add Note
+          </button>
         </form>
-        <button onClick={onClose}>Close</button>
       </div>
     </div>
   );
