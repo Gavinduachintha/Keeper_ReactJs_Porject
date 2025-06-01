@@ -2,26 +2,23 @@ import Header from "./header.jsx";
 import Note from "./note.jsx";
 import Footer from "./footer.jsx";
 
-import notes from "./notes.js";
 import "./App.css";
+import { useState } from "react";
+import Addnote from "./addnote.jsx";
 
 function App() {
+  const [notes, setNotes] = useState([]);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
+  const addNote = (newNote) => {
+    setNotes((prevNotes) => [...prevNotes, { ...newNote, key: Date.now() }]);
+  };
   return (
     <>
       <Header />
-      <div className="notes-coanitainer">
-        {/* <Note
-          number="1"
-          Notebody="This is the initial note when the note has been created in the react ui components"
-        />
-        <Note
-          number="2"
-          Notebody="This is the second example note"
-        />
-        <Note
-          number="3"
-          Notebody="This is the third example note"
-        /> */}
+      <div className="notes-container">
         {notes.map((noteItem) => (
           <Note
             key={noteItem.key}
@@ -30,8 +27,10 @@ function App() {
           />
         ))}
       </div>
-      <button className="add-button">+</button>
-
+      <button className="add-button" onClick={() => setPopupOpen(true)}>
+        +
+      </button>
+      <Addnote isOpen={isPopupOpen} onClose={closePopup} onAddNote={addNote} />
       <Footer />
     </>
   );
