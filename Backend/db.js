@@ -3,9 +3,9 @@ import pg from "pg";
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
-  database: "Noteapp",
-  password: "Lagare123",
-  port: 5432,
+  database: "db name",
+  password: "db password",
+  port: db port,
 });
 db.connect();
 
