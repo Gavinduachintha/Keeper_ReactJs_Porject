@@ -20,14 +20,15 @@ app.get("/api/notes", async (req, res) => {
 });
 
 app.post("/api/notes", async (req, res) => {
+  const createOn = new Date().toISOString();
   const { title, notecontent } = req.body;
   if (!title || !notecontent) {
     return res.status(400).json({ error: "Title and content are required" });
   }
   try {
     const result = await db.query(
-      "INSERT INTO notes (title, notecontent,created_at) VALUES ($1, $2) RETURNING *",
-      [title, notecontent,]
+      "INSERT INTO notes (title, notecontent,created_at) VALUES ($1, $2,$3) RETURNING *",
+      [title, notecontent, createOn]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {

@@ -21,6 +21,10 @@ body {
   gap: 1rem;
   align-items: flex-start;
   padding: 1rem;
+  max-height: 80vh; /* or a fixed height, e.g. 600px */
+  overflow-y: auto;
+  padding: 10px; /* optional for spacing */
+  border: 1px solid #ddd; /* optional for visibility */
 }
 
 /* Add Note Floating Button */

@@ -1,5 +1,5 @@
 import React from "react";
-import "./note.css";
+import "../assets/note.css";
 const Note = (props) => {
   const createOn = new Date().toLocaleDateString();
 
@@ -14,7 +14,10 @@ const Note = (props) => {
       <h3>Note {props.title}</h3>
       <p className="note-content">{props.content}</p>
       <div className="bottom-row">
-        <p className="date">{createOn}</p>
+        <p className="date">
+          {props.date ? new Date(props.date).toLocaleString() : "No Date"}
+        </p>
+
         <button onClick={handleDelete}>
           <img src="src/assets/delete.png" alt="Delete" />
         </button>
@@ -23,5 +26,4 @@ const Note = (props) => {
   );
 };
 
-
-export default Note
+export default Note;

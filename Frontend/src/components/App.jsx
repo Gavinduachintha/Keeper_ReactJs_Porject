@@ -1,9 +1,9 @@
 import Header from "./header.jsx";
 import Note from "./note.jsx";
 import Footer from "./footer.jsx";
-import "./App.css";
-import { useEffect, useState } from "react";
 import Addnote from "./addnote.jsx";
+import { useEffect, useState } from "react";
+import "../assets/app.css";
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -30,7 +30,7 @@ function App() {
         body: JSON.stringify(newNote),
       });
 
-      if (!res.ok) throw new Error("Failes to save note");
+      if (!res.ok) throw new Error("Failed to save note");
       const savedNote = await res.json();
       setNotes((prevNotes) => [...prevNotes, savedNote]);
     } catch (err) {
@@ -63,6 +63,7 @@ function App() {
             id={noteItem.id}
             title={noteItem.title}
             content={noteItem.notecontent}
+            date={noteItem.created_at}
             onDelete={deleteNote}
           />
         ))}

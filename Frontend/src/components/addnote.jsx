@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./addnote.css";
+import "../assets/addnote.css";
 
 const Addnote = ({ isOpen, onClose, onAddNote }) => {
   if (!isOpen) return null; //To avoid rendering the content when the pop is not opened
@@ -57,5 +57,6 @@ const Addnote = ({ isOpen, onClose, onAddNote }) => {
     </div>
   );
 };
+// console.log("Saved note from backend:", savedNote);
 
 export default Addnote;
