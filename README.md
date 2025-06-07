@@ -100,7 +100,7 @@ You can implement the backend using Express.js and a database like MongoDB, Post
 
 ## 🧑‍💻 Author
 
-**Gavindu** – [@yourgithub](https://github.com/Gavinduachintha)
+**Gavindu** – (https://github.com/Gavinduachintha)
 
 ---
 
