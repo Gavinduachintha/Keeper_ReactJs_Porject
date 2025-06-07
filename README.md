@@ -18,7 +18,7 @@ A clean and minimal note-taking web application built with **React.js**. Easily 
 ## 🔧 Technologies Used
 
 - **Frontend:** React.js, CSS
-- **Backend:** (Not included in repo) API calls to a Node.js/Express backend
+- **Backend:** NodeJs, ExpressJs and PostgeSQL
 - **Optional Styling Enhancements:** Flexbox/Grid, transitions
 
 ---
