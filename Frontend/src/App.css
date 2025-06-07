@@ -1,32 +1,48 @@
+/* App.css or your layout wrapper */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
 .notes-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: flex-start;
-    padding: 1rem;
-  }
-  
-  /* Add Note Floating Button */
-  .add-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    border: none;
-    font-size: 28px;
-    font-weight: bold;
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-    z-index: 1000;
-    color: #ffffff;
-    border-radius: 50%;
-    background-color: #6366f1; /* Indigo Blue */
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-  
-  .add-button:hover {
-    background-color: #4f46e5; /* Darker Indigo */
-    transform: scale(1.05);
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+/* Add Note Floating Button */
+.add-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 1000;
+  color: #ffffff;
+  border-radius: 50%;
+  background-color: #6366f1; /* Indigo Blue */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: #4f46e5; /* Darker Indigo */
+  transform: scale(1.05);
+}

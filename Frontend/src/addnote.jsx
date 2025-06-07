@@ -9,12 +9,13 @@ const Addnote = ({ isOpen, onClose, onAddNote }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title.trim() && content.trim()) {
-      onAddNote({ title, content });
+      onAddNote({ title: title.trim(), notecontent: content.trim() });
       setTitle("");
       setContent("");
       onClose();
     }
   };
+
   return (
     <div className="popup-overlay">
       <div className="popup-content">

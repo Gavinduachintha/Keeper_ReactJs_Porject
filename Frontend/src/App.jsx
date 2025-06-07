@@ -20,9 +20,39 @@ function App() {
   const closePopup = () => {
     setPopupOpen(false);
   };
-  const addNote = (newNote) => {
-    setNotes((prevNotes) => [...prevNotes, { ...newNote, key: Date.now() }]);
+  const addNote = async (newNote) => {
+    try {
+      const res = await fetch("http://localhost:3000/api/notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newNote),
+      });
+
+      if (!res.ok) throw new Error("Failes to save note");
+      const savedNote = await res.json();
+      setNotes((prevNotes) => [...prevNotes, savedNote]);
+    } catch (err) {
+      console.error("Error adding note: ", err);
+    }
   };
+
+  const deleteNote = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("Failed to delete note");
+
+      // Update the UI
+      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+    } catch (err) {
+      console.error("Error deleting note:", err);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -30,8 +60,10 @@ function App() {
         {notes.map((noteItem) => (
           <Note
             key={noteItem.id}
-            title={noteItem.notenumber}
+            id={noteItem.id}
+            title={noteItem.title}
             content={noteItem.notecontent}
+            onDelete={deleteNote}
           />
         ))}
       </div>
