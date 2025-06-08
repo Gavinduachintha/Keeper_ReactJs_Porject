@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import "../assets/addnote.css";
 
 const Addnote = ({ isOpen, onClose, onAddNote }) => {

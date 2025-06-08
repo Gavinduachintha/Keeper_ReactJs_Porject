@@ -56,6 +56,7 @@ function App() {
   return (
     <>
       <Header />
+
       <div className="notes-container">
         {notes.map((noteItem) => (
           <Note
@@ -64,12 +65,13 @@ function App() {
             title={noteItem.title}
             content={noteItem.notecontent}
             date={noteItem.created_at}
+            color = {noteItem.color}
             onDelete={deleteNote}
           />
         ))}
       </div>
       <button className="add-button" onClick={() => setPopupOpen(true)}>
-        +
+        Add +
       </button>
       <Addnote isOpen={isPopupOpen} onClose={closePopup} onAddNote={addNote} />
       <Footer />

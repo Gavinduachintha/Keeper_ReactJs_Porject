@@ -10,8 +10,11 @@ const Note = (props) => {
   };
 
   return (
-    <div className="noteComponent">
-      <h3>Note {props.title}</h3>
+    <div
+      className="noteComponent"
+      style={{ backgroundColor: props.color || "#ffffff" }}
+    >
+      <h3>{props.title}</h3>
       <p className="note-content">{props.content}</p>
       <div className="bottom-row">
         <p className="date">

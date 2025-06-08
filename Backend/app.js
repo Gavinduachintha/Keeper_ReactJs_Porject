@@ -8,10 +8,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const colorPalette = [
+  "#FFE3A9",
+  "#8CCDEB",
+  "#FF7601",
+  "#C562AF",
+  "#FCEF91",
+  "#C4E1E6",
+  "#EBFFD8",
+  "#FFE8CD",
+];
+
 app.get("/api/notes", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM notes ORDER BY id DESC");
-    console.log(result.rows);
+    // console.log(result.rows);
 
     res.json(result.rows);
   } catch (err) {
@@ -20,6 +31,8 @@ app.get("/api/notes", async (req, res) => {
 });
 
 app.post("/api/notes", async (req, res) => {
+  const randomColor =
+    colorPalette[Math.floor(Math.random() * colorPalette.length)];
   const createOn = new Date().toISOString();
   const { title, notecontent } = req.body;
   if (!title || !notecontent) {
@@ -27,8 +40,8 @@ app.post("/api/notes", async (req, res) => {
   }
   try {
     const result = await db.query(
-      "INSERT INTO notes (title, notecontent,created_at) VALUES ($1, $2,$3) RETURNING *",
-      [title, notecontent, createOn]
+      "INSERT INTO notes (title, notecontent,created_at,color) VALUES ($1, $2,$3,$4) RETURNING *",
+      [title, notecontent, createOn, randomColor]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {

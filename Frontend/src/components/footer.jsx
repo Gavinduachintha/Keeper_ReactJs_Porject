@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
     <footer>
-      <div>Copyright © ZeN studio {currentYear}</div>
+      <div className="footer-section">Copyright © ZeN studio {currentYear}</div>
     </footer>
   );
 };
