@@ -1,5 +1,4 @@
 import express from "express";
-import axios from "axios";
 import db from "./db.js";
 import cors from "cors";
 
@@ -47,6 +46,23 @@ app.post("/api/notes", async (req, res) => {
   } catch (err) {
     console.error("Error inserting note:", err);
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/notes/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, notecontent } = req.body;
+  if (!title || !notecontent) {
+    return res.status(400).json({ message: "Failed to update data" });
+  }
+  try {
+    const result = await db.query(
+      "UPDATE notes SET title = $1, notecontent = $2 WHERE id = $3 RETURNING *",
+      [title, notecontent, id]
+    );
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.meesage });
   }
 });
 
