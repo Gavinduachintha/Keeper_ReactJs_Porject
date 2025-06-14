@@ -1,29 +1,49 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import "../assets/addnote.css";
 
-const Addnote = ({ isOpen, onClose, onAddNote }) => {
-  if (!isOpen) return null; //To avoid rendering the content when the pop is not opened
+const Addnote = ({ isOpen, onClose, onAddNote, editingNote }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  // Prefill fields when editingNote is set
+  useEffect(() => {
+    if (editingNote) {
+      setTitle(editingNote.title);
+      setContent(editingNote.notecontent);
+    } else {
+      setTitle("");
+      setContent("");
+    }
+  }, [editingNote, isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title.trim() && content.trim()) {
-      onAddNote({ title: title.trim(), notecontent: content.trim() });
+      const noteData = {
+        title: title.trim(),
+        notecontent: content.trim(),
+      };
+
+      if (editingNote?.id) {
+        noteData.id = editingNote.id; // Include ID for editing
+      }
+
+      onAddNote(noteData); // Same function handles both add and edit
       setTitle("");
       setContent("");
       onClose();
     }
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="popup-overlay">
       <div className="popup-content">
         <div className="top-layer">
-          <h2>Add a new note</h2>
+          <h2>{editingNote ? "Edit Note" : "Add a new note"}</h2>
           <button className="close-button" onClick={onClose}>
-            <img src="src/assets/close.png"></img>
+            <img src="src/assets/close.png" alt="close" />
           </button>
         </div>
 
@@ -51,13 +71,12 @@ const Addnote = ({ isOpen, onClose, onAddNote }) => {
             ></textarea>
           </div>
           <button type="submit" className="submit-button">
-            Add Note
+            {editingNote ? "Update Note" : "Add Note"}
           </button>
         </form>
       </div>
     </div>
   );
 };
-// console.log("Saved note from backend:", savedNote);
 
 export default Addnote;

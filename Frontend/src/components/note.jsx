@@ -27,7 +27,7 @@ const Note = (props) => {
           {props.date ? new Date(props.date).toLocaleString() : "No Date"}
         </p>
 
-        <button>
+        <button onClick={()=>props.onEdit && props.onEdit()}>
           <img
             src="src/assets/edi.png"
             alt="edit"

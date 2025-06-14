@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 function App() {
   const [notes, setNotes] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [editNote, setEditNote] = useState(null)
+  const [editNote, setEditNote] = useState(null);
   useEffect(() => {
     fetch("http://localhost:3000/api/notes")
       .then((res) => res.json())
@@ -22,20 +22,47 @@ function App() {
   }, []);
   const closePopup = () => {
     setPopupOpen(false);
+    setEditNote(null)
   };
   const addNote = async (newNote) => {
     try {
-      const res = await fetch("http://localhost:3000/api/notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newNote),
-      });
+      if (newNote.id) {
+        // EDIT existing note
+        const res = await fetch(
+          `http://localhost:3000/api/notes/${newNote.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newNote),
+          }
+        );
 
-      if (!res.ok) throw new Error("Failed to save note");
-      const savedNote = await res.json();
-      setNotes((prevNotes) => [...prevNotes, savedNote]);
+        if (!res.ok) throw new Error("Failed to update note");
+        const updatedNote = await res.json();
+
+        setNotes((prevNotes) =>
+          prevNotes.map((note) =>
+            note.id === updatedNote.id ? updatedNote : note
+          )
+        );
+        toast.success("Note updated!");
+      } else {
+        // ADD new note
+        const res = await fetch("http://localhost:3000/api/notes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newNote),
+        });
+
+        if (!res.ok) throw new Error("Failed to save note");
+        const savedNote = await res.json();
+        setNotes((prevNotes) => [...prevNotes, savedNote]);
+        toast.success("Note added!");
+      }
     } catch (err) {
       console.error("Error adding note: ", err);
     }
@@ -56,9 +83,10 @@ function App() {
     }
   };
 
-  const editNote= async (id)=>{
-    setEditNote(editNote)
-  }
+  const handdleEditNote = async (note) => {
+    setEditNote(note);
+    setPopupOpen(true);
+  };
 
   return (
     <>
@@ -74,13 +102,14 @@ function App() {
             date={noteItem.created_at}
             color={noteItem.color}
             onDelete={deleteNote}
+            onEdit={()=>handdleEditNote(noteItem)}
           />
         ))}
       </div>
       <button className="add-button" onClick={() => setPopupOpen(true)}>
         Add +
       </button>
-      <Addnote isOpen={isPopupOpen} onClose={closePopup} onAddNote={addNote} />
+      <Addnote isOpen={isPopupOpen} onClose={closePopup} onAddNote={addNote} editingNote={editNote}/>
       <Footer />
     </>
   );
