@@ -8,11 +8,17 @@ const Note = (props) => {
       props.onDelete(props.id);
     }
   };
-
+  const accentColor = props.color || "#4f46e5";
+  const backgroundColor = props.bgColor || "#ffffff";
   return (
     <div
       className="noteComponent"
-      style={{ backgroundColor: props.color || "#ffffff" }}
+      style={{
+        "--accent-color": accentColor,
+        "--accent-light": `${accentColor}20`,
+        "--accent-lighter": `${accentColor}10`,
+        background: backgroundColor,
+      }}
     >
       <h3>{props.title}</h3>
       <p className="note-content">{props.content}</p>
@@ -21,6 +27,13 @@ const Note = (props) => {
           {props.date ? new Date(props.date).toLocaleString() : "No Date"}
         </p>
 
+        <button>
+          <img
+            src="src/assets/edi.png"
+            alt="edit"
+            
+          />
+        </button>
         <button onClick={handleDelete}>
           <img src="src/assets/delete.png" alt="Delete" />
         </button>

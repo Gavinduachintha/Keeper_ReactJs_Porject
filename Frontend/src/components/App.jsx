@@ -4,10 +4,13 @@ import Footer from "./footer.jsx";
 import Addnote from "./addnote.jsx";
 import { useEffect, useState } from "react";
 import "../assets/app.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [editNote, setEditNote] = useState(null)
   useEffect(() => {
     fetch("http://localhost:3000/api/notes")
       .then((res) => res.json())
@@ -53,6 +56,10 @@ function App() {
     }
   };
 
+  const editNote= async (id)=>{
+    setEditNote(editNote)
+  }
+
   return (
     <>
       <Header />
@@ -65,7 +72,7 @@ function App() {
             title={noteItem.title}
             content={noteItem.notecontent}
             date={noteItem.created_at}
-            color = {noteItem.color}
+            color={noteItem.color}
             onDelete={deleteNote}
           />
         ))}
