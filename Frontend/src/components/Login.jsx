@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import '../assets/login.css';
 
-const LoginPage = () => {
+const LoginPage = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,13 +16,13 @@ const LoginPage = () => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Validate credentials (in a real app, this would be server-side)
+
       if (email && password) {
         if (rememberMe) {
           localStorage.setItem('rememberedEmail', email);
         }
-        navigate('/app'); // Redirect to app after successful login
+        // Instead of navigating, notify parent that login was successful
+        onLoginSuccess();
       } else {
         setError('Please enter both email and password');
       }
@@ -39,7 +37,7 @@ const LoginPage = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <img src="/logo.png" alt="EduNotes Logo" className="logo" />
+          {/* <img src="/logo.png" alt="EduNotes Logo" className="logo" /> */}
           <h1>Welcome to EduNotes</h1>
           <p>Your personal learning companion</p>
         </div>
@@ -98,7 +96,7 @@ const LoginPage = () => {
           </div>
 
           <button type="button" className="google-login">
-            <img src="/google-icon.png" alt="Google" />
+            <img src="src/assets/google.png" alt="Google" />
             Continue with Google
           </button>
         </form>
@@ -108,14 +106,14 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div className="login-footer">
+      {/* <div className="login-footer">
         <p>© 2023 EduNotes. All rights reserved.</p>
         <div className="footer-links">
           <a href="/privacy">Privacy Policy</a>
           <a href="/terms">Terms of Service</a>
           <a href="/help">Help Center</a>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

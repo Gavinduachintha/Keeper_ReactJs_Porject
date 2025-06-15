@@ -1,16 +1,18 @@
+import { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import Header from "./header.jsx";
 import Note from "./note.jsx";
 import Footer from "./footer.jsx";
 import Addnote from "./addnote.jsx";
-import { useEffect, useState } from "react";
 import "../assets/app.css";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import LoginPage from "./Login.jsx";
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [editNote, setEditNote] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     fetch("http://localhost:3000/api/notes")
       .then((res) => res.json())
@@ -22,7 +24,7 @@ function App() {
   }, []);
   const closePopup = () => {
     setPopupOpen(false);
-    setEditNote(null)
+    setEditNote(null);
   };
   const addNote = async (newNote) => {
     try {
@@ -90,27 +92,39 @@ function App() {
 
   return (
     <>
-      <Header />
+      {!isLoggedIn ? (
+        <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />
+      ) : (
+        <>
+          <Header />
 
-      <div className="notes-container">
-        {notes.map((noteItem) => (
-          <Note
-            key={noteItem.id}
-            id={noteItem.id}
-            title={noteItem.title}
-            content={noteItem.notecontent}
-            date={noteItem.created_at}
-            color={noteItem.color}
-            onDelete={deleteNote}
-            onEdit={()=>handdleEditNote(noteItem)}
+          <div className="notes-container">
+            {notes.map((noteItem) => (
+              <Note
+                key={noteItem.id}
+                id={noteItem.id}
+                title={noteItem.title}
+                content={noteItem.notecontent}
+                date={noteItem.created_at}
+                color={noteItem.color}
+                onDelete={deleteNote}
+                onEdit={() => handdleEditNote(noteItem)}
+              />
+            ))}
+          </div>
+          <button className="add-button" onClick={() => setPopupOpen(true)}>
+            Add +
+          </button>
+          <Addnote
+            isOpen={isPopupOpen}
+            onClose={closePopup}
+            onAddNote={addNote}
+            editingNote={editNote}
           />
-        ))}
-      </div>
-      <button className="add-button" onClick={() => setPopupOpen(true)}>
-        Add +
-      </button>
-      <Addnote isOpen={isPopupOpen} onClose={closePopup} onAddNote={addNote} editingNote={editNote}/>
-      <Footer />
+          <Footer />
+          <ToastContainer />
+        </>
+      )}
     </>
   );
 }

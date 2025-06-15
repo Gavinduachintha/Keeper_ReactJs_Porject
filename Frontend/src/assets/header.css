@@ -44,7 +44,6 @@ footer {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-.footer-section{
+.footer-section {
   opacity: 0.5; /* 0 = fully transparent, 1 = fully opaque */
-
 }
