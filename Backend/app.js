@@ -18,9 +18,34 @@ const colorPalette = [
   "#FFE8CD",
 ];
 
-app.get("/api/notes", async (req, res) => {
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password required" });
+  }
   try {
-    const result = await db.query("SELECT * FROM notes ORDER BY id DESC");
+    const result = await db.query(
+      "SELECT id,email FROM users WHERE email = $1 AND password = $2",
+      [email, password]
+    );
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    res.json({ message: "Login successfull" });
+  } catch (err) {
+    console.error("Login err: ", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+  res.json({message:"Login Successfull", userId:result.rows[0].id})
+});
+
+app.get("/api/notes", async (req, res) => {
+  const userId = req.query.userId;
+  if(!userId){
+    return res.status(400).json({message:"User id required"})
+  }
+  try {
+    const result = await db.query("SELECT * FROM notes WHERE user_id=$1 ORDER BY id DESC",[userId]);
     // console.log(result.rows);
 
     res.json(result.rows);
@@ -34,13 +59,13 @@ app.post("/api/notes", async (req, res) => {
     colorPalette[Math.floor(Math.random() * colorPalette.length)];
   const createOn = new Date().toISOString();
   const { title, notecontent } = req.body;
-  if (!title || !notecontent) {
-    return res.status(400).json({ error: "Title and content are required" });
+  if (!title || !notecontent||!userId) {
+    return res.status(400).json({ error: "Title,content and userId are required" });
   }
   try {
     const result = await db.query(
-      "INSERT INTO notes (title, notecontent,created_at,color) VALUES ($1, $2,$3,$4) RETURNING *",
-      [title, notecontent, createOn, randomColor]
+      "INSERT INTO notes (title, notecontent,created_at,color,user_id) VALUES ($1, $2,$3,$4,$5) RETURNING *",
+      [title, notecontent, createOn, randomColor,userId]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -62,7 +87,7 @@ app.put("/api/notes/:id", async (req, res) => {
     );
     res.status(200).json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ message: err.meesage });
+    res.status(500).json({ message: err.message });
   }
 });
 

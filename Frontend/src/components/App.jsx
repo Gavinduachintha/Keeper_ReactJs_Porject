@@ -13,7 +13,9 @@ function App() {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [editNote, setEditNote] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId,setUserId]=useState(null)
   useEffect(() => {
+    if (!isLoggedIn) return;
     fetch("http://localhost:3000/api/notes")
       .then((res) => res.json())
       .then((data) => {
@@ -21,7 +23,7 @@ function App() {
         setNotes(data);
       })
       .catch((err) => console.error("Error fetching notes: ", err));
-  }, []);
+  }, [isLoggedIn, userId]);
   const closePopup = () => {
     setPopupOpen(false);
     setEditNote(null);
@@ -37,7 +39,7 @@ function App() {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(newNote),
+            body: JSON.stringify({...newNote,userId}),
           }
         );
 
@@ -57,7 +59,7 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(newNote),
+          body: JSON.stringify(...newNote,userId),
         });
 
         if (!res.ok) throw new Error("Failed to save note");
@@ -90,14 +92,23 @@ function App() {
     setPopupOpen(true);
   };
 
+  const handleLoginSuccess = (userId) => {
+    setIsLoggedIn(true);
+    setUserId(userId);
+  };
+  const hadleLogout = () => {
+    localStorage.removeItem("rememberedEmail");
+    setIsLoggedIn(false);
+  };
+
   return (
     <>
       {!isLoggedIn ? (
-        <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />
+        <LoginPage onLoginSuccess={handleLoginSuccess} />
       ) : (
         <>
-          <Header />
-
+          <Header onLogout={hadleLogout} />
+          {/* <Header/> */}
           <div className="notes-container">
             {notes.map((noteItem) => (
               <Note
