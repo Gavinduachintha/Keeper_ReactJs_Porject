@@ -1,6 +1,7 @@
 import express from "express";
 import db from "./db.js";
 import cors from "cors";
+import bcrypt from "bcrypt";
 
 const port = 3000;
 const app = express();
@@ -17,6 +18,29 @@ const colorPalette = [
   "#EBFFD8",
   "#FFE8CD",
 ];
+
+app.post("/api/signup", async (req, res) => {
+  const saltRounds = 10;
+  const { email, password } = req.body;
+
+  try {
+    if (!password || !email) {
+      return res.json(400).json({ message: "Email and password required" });
+    }
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const result = await db.query(
+      "INSERT INTO users (email, hashedPassword) VALUES ($1,$2)",
+      [email, hashedPassword]
+    );
+    res.status(201).json({ message: "User added" });
+  } catch (error) {
+    console.error(error);
+    if (error.code == "23505") {
+      return res.status(209).json({ error: "Emial already registered" });
+    }
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;

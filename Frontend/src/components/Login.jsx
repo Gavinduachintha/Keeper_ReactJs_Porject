@@ -45,8 +45,8 @@ const LoginPage = ({ onLoginSuccess }) => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1>Welcome to EduNotes</h1>
-          <p>Your personal learning companion</p>
+          <h1>Hey There</h1>
+          <p>Welcome Back</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
