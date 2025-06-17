@@ -6,69 +6,74 @@ import Note from "./note.jsx";
 import Footer from "./footer.jsx";
 import Addnote from "./addnote.jsx";
 import "../assets/app.css";
-import LoginPage from "./Login.jsx";
-
+import LoginPage from "./Login.jsx"
 function App() {
   const [notes, setNotes] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [editNote, setEditNote] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId,setUserId]=useState(null)
+  const [userId, setUserId] = useState(null);
+
   useEffect(() => {
-    if (!isLoggedIn) return;
-    fetch("http://localhost:3000/api/notes")
+    if (!isLoggedIn || !userId) return;
+    fetch(`http://localhost:3000/api/notes?userId=${userId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched notes in App.jsx:", data); // Log the fetched notes
         setNotes(data);
       })
       .catch((err) => console.error("Error fetching notes: ", err));
   }, [isLoggedIn, userId]);
+
   const closePopup = () => {
     setPopupOpen(false);
     setEditNote(null);
   };
+
   const addNote = async (newNote) => {
     try {
-      if (newNote.id) {
-        // EDIT existing note
-        const res = await fetch(
-          `http://localhost:3000/api/notes/${newNote.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({...newNote,userId}),
-          }
-        );
+      const payload = { ...newNote, userId };
+
+      if (!payload.title || !payload.notecontent) {
+        toast.error("Both title and content are required.");
+        return;
+      }
+
+      if (payload.id) {
+        // Edit existing note
+        const res = await fetch(`http://localhost:3000/api/notes/${payload.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
 
         if (!res.ok) throw new Error("Failed to update note");
+
         const updatedNote = await res.json();
 
         setNotes((prevNotes) =>
-          prevNotes.map((note) =>
-            note.id === updatedNote.id ? updatedNote : note
-          )
+          prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
         );
         toast.success("Note updated!");
       } else {
-        // ADD new note
+        // Add new note
         const res = await fetch("http://localhost:3000/api/notes", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(...newNote,userId),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
         });
 
-        if (!res.ok) throw new Error("Failed to save note");
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || "Failed to save note");
+        }
+
         const savedNote = await res.json();
         setNotes((prevNotes) => [...prevNotes, savedNote]);
         toast.success("Note added!");
       }
     } catch (err) {
-      console.error("Error adding note: ", err);
+      console.error("Error adding/updating note:", err.message);
+      toast.error("Something went wrong. Check console.");
     }
   };
 
@@ -80,14 +85,15 @@ function App() {
 
       if (!res.ok) throw new Error("Failed to delete note");
 
-      // Update the UI
       setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+      toast.success("Note deleted!");
     } catch (err) {
       console.error("Error deleting note:", err);
+      toast.error("Delete failed.");
     }
   };
 
-  const handdleEditNote = async (note) => {
+  const handleEditNote = (note) => {
     setEditNote(note);
     setPopupOpen(true);
   };
@@ -96,9 +102,12 @@ function App() {
     setIsLoggedIn(true);
     setUserId(userId);
   };
-  const hadleLogout = () => {
+
+  const handleLogout = () => {
     localStorage.removeItem("rememberedEmail");
     setIsLoggedIn(false);
+    setUserId(null);
+    setNotes([]);
   };
 
   return (
@@ -107,8 +116,7 @@ function App() {
         <LoginPage onLoginSuccess={handleLoginSuccess} />
       ) : (
         <>
-          <Header onLogout={hadleLogout} />
-          {/* <Header/> */}
+          <Header onLogout={handleLogout} />
           <div className="notes-container">
             {notes.map((noteItem) => (
               <Note
@@ -119,7 +127,7 @@ function App() {
                 date={noteItem.created_at}
                 color={noteItem.color}
                 onDelete={deleteNote}
-                onEdit={() => handdleEditNote(noteItem)}
+                onEdit={() => handleEditNote(noteItem)}
               />
             ))}
           </div>

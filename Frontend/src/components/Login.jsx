@@ -1,33 +1,41 @@
-import React, { useState } from 'react';
-import '../assets/login.css';
+import React, { useState, useEffect } from "react";
+import "../assets/login.css";
 
 const LoginPage = ({ onLoginSuccess }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState(() => localStorage.getItem("rememberedEmail") || "");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(() => !!localStorage.getItem("rememberedEmail"));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const res = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      if (email && password) {
-        if (rememberMe) {
-          localStorage.setItem('rememberedEmail', email);
-        }
-        // Instead of navigating, notify parent that login was successful
-        onLoginSuccess();
-      } else {
-        setError('Please enter both email and password');
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Login failed");
       }
+
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
+      }
+
+      onLoginSuccess(data.userId); // Pass userId to parent
+
     } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      setError(err.message || "Invalid credentials. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +45,6 @@ const LoginPage = ({ onLoginSuccess }) => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          {/* <img src="/logo.png" alt="EduNotes Logo" className="logo" /> */}
           <h1>Welcome to EduNotes</h1>
           <p>Your personal learning companion</p>
         </div>
@@ -84,11 +91,7 @@ const LoginPage = ({ onLoginSuccess }) => {
           </div>
 
           <button type="submit" className="login-button" disabled={isLoading}>
-            {isLoading ? (
-              <span className="spinner"></span>
-            ) : (
-              'Log In'
-            )}
+            {isLoading ? <span className="spinner"></span> : "Log In"}
           </button>
 
           <div className="divider">
@@ -105,15 +108,6 @@ const LoginPage = ({ onLoginSuccess }) => {
           Don't have an account? <a href="/signup">Sign up</a>
         </div>
       </div>
-
-      {/* <div className="login-footer">
-        <p>© 2023 EduNotes. All rights reserved.</p>
-        <div className="footer-links">
-          <a href="/privacy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-          <a href="/help">Help Center</a>
-        </div>
-      </div> */}
     </div>
   );
 };

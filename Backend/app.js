@@ -31,23 +31,26 @@ app.post("/api/login", async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    res.json({ message: "Login successfull" });
+    return res.json({
+      message: "Login successful",
+      userId: result.rows[0].id, // send userId to frontend
+    });
   } catch (err) {
     console.error("Login err: ", err);
     return res.status(500).json({ message: "Internal server error" });
   }
-  res.json({message:"Login Successfull", userId:result.rows[0].id})
 });
 
 app.get("/api/notes", async (req, res) => {
   const userId = req.query.userId;
-  if(!userId){
-    return res.status(400).json({message:"User id required"})
+  if (!userId) {
+    return res.status(400).json({ message: "User id required" });
   }
   try {
-    const result = await db.query("SELECT * FROM notes WHERE user_id=$1 ORDER BY id DESC",[userId]);
-    // console.log(result.rows);
-
+    const result = await db.query(
+      "SELECT * FROM notes WHERE user_id=$1 ORDER BY id DESC",
+      [userId]
+    );
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -58,14 +61,16 @@ app.post("/api/notes", async (req, res) => {
   const randomColor =
     colorPalette[Math.floor(Math.random() * colorPalette.length)];
   const createOn = new Date().toISOString();
-  const { title, notecontent } = req.body;
-  if (!title || !notecontent||!userId) {
-    return res.status(400).json({ error: "Title,content and userId are required" });
+  const { title, notecontent, userId } = req.body;
+  if (!title || !notecontent || !userId) {
+    return res
+      .status(400)
+      .json({ error: "Title, content and userId are required" });
   }
   try {
     const result = await db.query(
-      "INSERT INTO notes (title, notecontent,created_at,color,user_id) VALUES ($1, $2,$3,$4,$5) RETURNING *",
-      [title, notecontent, createOn, randomColor,userId]
+      "INSERT INTO notes (title, notecontent, created_at, color, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [title, notecontent, createOn, randomColor, userId]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -112,5 +117,5 @@ app.delete("/api/notes/:id", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Servers is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
