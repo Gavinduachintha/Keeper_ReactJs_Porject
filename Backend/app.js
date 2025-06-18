@@ -25,11 +25,11 @@ app.post("/api/signup", async (req, res) => {
 
   try {
     if (!password || !email) {
-      return res.json(400).json({ message: "Email and password required" });
+      return res.status(400).json({ message: "Email and password required" });
     }
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const result = await db.query(
-      "INSERT INTO users (email, hashedPassword) VALUES ($1,$2)",
+      "INSERT INTO users (email, password) VALUES ($1,$2)",
       [email, hashedPassword]
     );
     res.status(201).json({ message: "User added" });
@@ -49,15 +49,20 @@ app.post("/api/login", async (req, res) => {
   }
   try {
     const result = await db.query(
-      "SELECT id,email FROM users WHERE email = $1 AND password = $2",
-      [email, password]
+      "SELECT id,email,password FROM users WHERE email = $1",
+      [email]
     );
     if (result.rows.length === 0) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
+    const user = result.rows[0];
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
     return res.json({
       message: "Login successful",
-      userId: result.rows[0].id, // send userId to frontend
+      userId: user.id, // send userId to frontend
     });
   } catch (err) {
     console.error("Login err: ", err);

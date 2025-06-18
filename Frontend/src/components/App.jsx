@@ -6,7 +6,8 @@ import Note from "./note.jsx";
 import Footer from "./footer.jsx";
 import Addnote from "./addnote.jsx";
 import "../assets/app.css";
-import LoginPage from "./Login.jsx"
+import LoginPage from "./Login.jsx";
+
 function App() {
   const [notes, setNotes] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -40,18 +41,23 @@ function App() {
 
       if (payload.id) {
         // Edit existing note
-        const res = await fetch(`http://localhost:3000/api/notes/${payload.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        const res = await fetch(
+          `http://localhost:3000/api/notes/${payload.id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }
+        );
 
         if (!res.ok) throw new Error("Failed to update note");
 
         const updatedNote = await res.json();
 
         setNotes((prevNotes) =>
-          prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
+          prevNotes.map((note) =>
+            note.id === updatedNote.id ? updatedNote : note
+          )
         );
         toast.success("Note updated!");
       } else {
