@@ -94,12 +94,12 @@ body::before {
   height: 40px;
   border: none;
   padding: 0px 20px;
-  background-color: rgb(168, 38, 255);
+  background-color: #645bff;
   color: white;
   font-weight: 500;
   cursor: pointer;
   border-radius: 10px;
-  box-shadow: 5px 5px 0px rgb(140, 32, 212);
+  box-shadow: 5px 5px 0px #5851e0;
   transition-duration: 0.3s;
 }
 
@@ -129,8 +129,6 @@ body::before {
   transition-duration: 0.3s;
   box-shadow: 2px 2px 0px rgb(140, 32, 212);
 }
-
-
 
 /* Empty State */
 .empty-state {

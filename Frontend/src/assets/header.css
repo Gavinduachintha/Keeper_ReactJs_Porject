@@ -16,7 +16,7 @@ body {
 }
 
 .header {
-  background-color: #6366f1;
+  background-color: #ffffff;
   margin: 0; /* Adjusted for better layout */
   height: 100%;
   width: 100vw;
@@ -29,7 +29,7 @@ body {
 }
 
 .header h1 {
-  color: #fff;
+  color: #000000;
   /* font-family: "McLaren", cursive; */
   font-weight: 200;
   /* Add any additional styling here */
@@ -52,19 +52,62 @@ footer {
   opacity: 0.5; /* 0 = fully transparent, 1 = fully opaque */
 }
 
-.logout{
-  width: 90px;
-  height: 55px;
-  border: none;
-  border-radius: 16px;
-  background-color: var(--primary, #4f46e5); /* fallback color */
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
-  cursor: pointer;
+.logout-button {
+  --primary-color: #645bff;
+  --secondary-color: #fff;
+  --hover-color: #382df9;
+  --arrow-width: 10px;
+  --arrow-stroke: 2px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 20px;
+  color: var(--secondary-color);
+  padding: 1em 1.8em;
+  background: var(--primary-color);
   display: flex;
+  transition: 0.2s background;
   align-items: center;
+  gap: 0.6em;
+  font-weight: bold;
+}
+
+.logout-button .arrow-wrapper {
+  display: flex;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  align-items: center;
+}
+
+.logout-button .arrow {
+  margin-top: 1px;
+  width: var(--arrow-width);
+  background: var(--primary-color);
+  height: var(--arrow-stroke);
+  position: relative;
+  transition: 0.2s;
+}
+
+.logout-button .arrow::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  border: solid var(--secondary-color);
+  border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+  display: inline-block;
+  top: -3px;
+  right: 3px;
+  transition: 0.2s;
+  padding: 3px;
+  transform: rotate(-45deg);
+}
+
+.logout-button:hover {
+  background-color: var(--hover-color);
+}
+
+.logout-button:hover .arrow {
+  background: var(--secondary-color);
+}
+
+.logout-button:hover .arrow:before {
+  right: 0;
 }
