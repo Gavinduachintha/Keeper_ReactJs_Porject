@@ -16,20 +16,21 @@ body {
 }
 
 .header {
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   margin: 0; /* Adjusted for better layout */
   height: 100%;
   width: 100vw;
   padding: 16px 32px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .header h1 {
-  color: #000000;
+  color: var(--text-dark);
   /* font-family: "McLaren", cursive; */
   font-weight: 200;
   /* Add any additional styling here */
@@ -53,17 +54,17 @@ footer {
 }
 
 .logout-button {
-  --primary-color: #645bff;
-  --secondary-color: #fff;
-  --hover-color: #382df9;
+  --primary-color: var(--primary);
+  --secondary-color: var(--button-text);
+  --hover-color: var(--primary-dark);
   --arrow-width: 10px;
   --arrow-stroke: 2px;
   box-sizing: border-box;
   border: 0;
   border-radius: 20px;
-  color: var(--secondary-color);
+  color: var(--button-text);
   padding: 1em 1.8em;
-  background: var(--primary-color);
+  background: var(--button-bg);
   display: flex;
   transition: 0.2s background;
   align-items: center;
@@ -80,7 +81,7 @@ footer {
 .logout-button .arrow {
   margin-top: 1px;
   width: var(--arrow-width);
-  background: var(--primary-color);
+  background: var(--button-bg);
   height: var(--arrow-stroke);
   position: relative;
   transition: 0.2s;
@@ -90,7 +91,7 @@ footer {
   content: "";
   box-sizing: border-box;
   position: absolute;
-  border: solid var(--secondary-color);
+  border: solid var(--button-text);
   border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
   display: inline-block;
   top: -3px;
@@ -101,11 +102,11 @@ footer {
 }
 
 .logout-button:hover {
-  background-color: var(--hover-color);
+  background-color: var(--primary-dark);
 }
 
 .logout-button:hover .arrow {
-  background: var(--secondary-color);
+  background: var(--button-text);
 }
 
 .logout-button:hover .arrow:before {
