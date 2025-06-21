@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../styles/global/login.css";
 
 const Signup = ({ onSignupSuccess }) => {
   const [email, setEmail] = useState("");
@@ -92,7 +93,7 @@ const Signup = ({ onSignupSuccess }) => {
           </div>
 
           <button type="button" className="google-login">
-            <img src="src/assets/google.png" alt="Google" />
+            <img src="src/styles/assets/images/google.png" alt="Google" />
             Continue with Google
           </button>
         </form>

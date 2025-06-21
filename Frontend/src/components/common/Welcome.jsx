@@ -1,6 +1,6 @@
 // components/WelcomePage.jsx
 import React from "react";
-import "../assets/welcome.css"; // optional for styling
+import "../../styles/global/welcome.css"; // optional for styling
 
 const WelcomePage = ({ onSelect }) => {
   return (

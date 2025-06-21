@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/header.css";
+import "../../styles/global/header.css";
 
 const Header = ({ onLogout }) => {
   return (

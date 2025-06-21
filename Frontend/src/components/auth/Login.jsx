@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../assets/login.css";
+import "../../styles/global/login.css";
 
 const LoginPage = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState(
@@ -105,7 +105,7 @@ const LoginPage = ({ onLoginSuccess }) => {
             </div>
 
             <button type="button" className="google-login">
-              <img src="src/assets/google.png" alt="Google" />
+              <img src="src/styles/assets/images/google.png" alt="Google" />
               Continue with Google
             </button>
           </form>

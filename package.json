@@ -1,0 +1,27 @@
+{
+  "name": "keeper-notes-app",
+  "version": "1.0.0",
+  "description": "A full-stack note-taking application with React frontend and Node.js backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd Backend && npm run dev",
+    "dev:frontend": "cd Frontend && npm run dev",
+    "build": "cd Frontend && npm run build",
+    "start": "cd Backend && npm start",
+    "install:all": "npm install && cd Backend && npm install && cd ../Frontend && npm install"
+  },
+  "keywords": [
+    "react",
+    "nodejs",
+    "express",
+    "postgresql",
+    "notes",
+    "fullstack"
+  ],
+  "author": "ZeN Studio",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 

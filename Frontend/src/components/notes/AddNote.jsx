@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../assets/addnote.css";
+import "../../styles/global/addnote.css";
 
-const Addnote = ({ isOpen, onClose, onAddNote, editingNote }) => {
+const AddNote = ({ isOpen, onClose, onAddNote, editingNote }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -43,7 +43,7 @@ const Addnote = ({ isOpen, onClose, onAddNote, editingNote }) => {
         <div className="top-layer">
           <h2>{editingNote ? "Edit Note" : "Add a new note"}</h2>
           <button className="close-button" onClick={onClose}>
-            <img src="src/assets/close.png" alt="close" />
+            <img src="src/styles/assets/images/close.png" alt="close" />
           </button>
         </div>
 
@@ -79,4 +79,4 @@ const Addnote = ({ isOpen, onClose, onAddNote, editingNote }) => {
   );
 };
 
-export default Addnote;
+export default AddNote;

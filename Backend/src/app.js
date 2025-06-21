@@ -1,5 +1,5 @@
 import express from "express";
-import db from "./db.js";
+import db from "./config/database.js";
 import cors from "cors";
 import bcrypt from "bcrypt";
 

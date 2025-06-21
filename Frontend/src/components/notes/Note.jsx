@@ -1,5 +1,6 @@
 import React from "react";
-import "../assets/note.css";
+import "../../styles/global/note.css";
+
 const Note = (props) => {
   const createOn = new Date().toLocaleDateString();
 
@@ -29,13 +30,13 @@ const Note = (props) => {
 
         <button onClick={()=>props.onEdit && props.onEdit()}>
           <img
-            src="src/assets/edi.png"
+            src="src/styles/assets/images/edi.png"
             alt="edit"
             
           />
         </button>
         <button onClick={handleDelete}>
-          <img src="src/assets/delete.png" alt="Delete" />
+          <img src="src/styles/assets/images/delete.png" alt="Delete" />
         </button>
       </div>
     </div>
