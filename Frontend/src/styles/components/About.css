@@ -5,18 +5,31 @@
   background-color: var(--card-bg);
   color: var(--text-dark);
   border-radius: 8px;
-  box-shadow: var(--card-shadow);
-  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: "Inter", sans-serif;
 }
 
 .about-container h2 {
   color: var(--primary);
   margin-bottom: 1.5rem;
   text-align: center;
+  font-size: 1.8rem;
 }
 
 .about-container p {
-  line-height: 1.6;
+  line-height: 1.8;
   margin-bottom: 1rem;
   color: var(--text-medium);
-} 
+  font-size: 15px;
+}
+
+.about-container a {
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.about-container a:hover {
+  text-decoration: underline;
+}
