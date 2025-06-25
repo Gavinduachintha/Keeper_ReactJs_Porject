@@ -10,6 +10,7 @@ import "../styles/global/App.css";
 import LoginPage from "./auth/Login.jsx";
 import WelcomePage from "./common/Welcome.jsx";
 import Signup from "./auth/Signup.jsx";
+import Home from "./auth/Home.jsx";
 
 function App() {
   const [screen,setScreen]= useState("welcome")
@@ -19,6 +20,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
   const [currentPage, setCurrentPage] = useState('notes');
+  
 
   useEffect(() => {
     if (!isLoggedIn || !userId) return;
@@ -127,6 +129,8 @@ function App() {
     setNotes([]);
     setScreen("welcome");
   };
+ 
+
   if (screen === "welcome") {
     return <WelcomePage onSelect={setScreen} />;
   }
@@ -179,7 +183,7 @@ function App() {
             ) : (
               <About />
             )}
-            <Footer />
+            {/* <Footer /> */}
             <ToastContainer />
           </>
         )}

@@ -1,0 +1,119 @@
+.home-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.home-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-signin, .btn-signup {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-signin {
+  background: transparent;
+  color: #333;
+}
+
+.btn-signup {
+  background-color: #7c3aed;
+  color: white;
+}
+
+.home-screen {
+  display: flex;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.home-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+}
+
+.home-content {
+  text-align: left;
+}
+
+.home-title {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1e293b;
+}
+
+.highlight {
+  color: #7c3aed;
+}
+
+.home-description {
+  margin-top: 1.5rem;
+  font-size: 1.125rem;
+  color: #475569;
+  max-width: 500px;
+}
+
+.home-buttons {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.home-buttons .btn {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #7c3aed;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #6d28d9;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+  background-color: #f8fafc;
+}
+
+.home-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+} 

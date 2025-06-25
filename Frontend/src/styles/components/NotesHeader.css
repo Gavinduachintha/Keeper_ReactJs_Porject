@@ -1,0 +1,40 @@
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.notes-title-section .notes-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.notes-title-section .notes-count {
+  font-size: 1rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.new-note-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.new-note-btn:hover {
+  background-color: #6d28d9;
+} 
